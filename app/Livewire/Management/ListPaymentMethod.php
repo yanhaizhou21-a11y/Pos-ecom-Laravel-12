@@ -14,6 +14,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use App\Models\PaymentMethod;
+use Dom\Text;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
+use Filament\Tables\Columns\TextColumn;
 
 class ListPaymentMethod extends Component implements HasActions, HasSchemas, HasTable
 {
@@ -26,7 +30,11 @@ class ListPaymentMethod extends Component implements HasActions, HasSchemas, Has
         return $table
             ->query(fn (): Builder => PaymentMethod::query())
             ->columns([
-                //
+                TextColumn::make('name')
+                ->searchable()
+                ->sortable(),
+                TextColumn::make('description')
+                ->limit(50)                
             ])
             ->filters([
                 //
@@ -35,7 +43,15 @@ class ListPaymentMethod extends Component implements HasActions, HasSchemas, Has
                 //
             ])
             ->recordActions([
-                //
+                Action::make('delete')
+                ->requiresConfirmation()
+                ->color('danger')
+                ->action(fn(PaymentMethod $record)=> $record->delete())
+                ->successNotification(
+                    Notification::make()
+                    ->title('Payment Method Deleted successfully')
+                    ->success()
+                )
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

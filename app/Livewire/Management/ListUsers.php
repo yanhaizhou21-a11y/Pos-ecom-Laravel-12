@@ -14,6 +14,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use App\Models\User;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
+use Filament\Tables\Columns\TextColumn;
 
 class ListUsers extends Component implements HasActions, HasSchemas, HasTable
 {
@@ -24,9 +27,18 @@ class ListUsers extends Component implements HasActions, HasSchemas, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(fn (): Builder => user::query())
+            ->query(fn (): Builder => User::query())
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('email')
+                    ->searchable(),
+                TextColumn::make('role')
+                    ->label('Role')
+                    ->searchable()
+                    ->badge()
+                    ->getStateUsing(fn ($record) => data_get($record, 'role.name') ?? data_get($record, 'role')),
             ])
             ->filters([
                 //
@@ -35,7 +47,15 @@ class ListUsers extends Component implements HasActions, HasSchemas, HasTable
                 //
             ])
             ->recordActions([
-                //
+                Action::make('delete')
+                ->requiresConfirmation()
+                ->color('danger')
+                ->action(fn(User $record)=> $record->delete())
+                ->successNotification(
+                    Notification::make()
+                    ->title('Payment Method Deleted successfully')
+                    ->success()
+                )
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

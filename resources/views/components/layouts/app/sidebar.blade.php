@@ -23,17 +23,18 @@
                 </flux:navlist.group>
                 
                 <flux:navlist.group :heading="__('Management')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('customers.index')" :current="request()->routeIs('customers.index')" wire:navigate>{{ __('Manage Customers') }}</flux:navlist.item>
-                     <flux:navlist.item icon="home" :href="route('payment.method.index')" :current="request()->routeIs('payment.method.index')" wire:navigate>{{ __('Manage Payment Methods') }}</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('customers.index')" :current="request()->routeIs('customers.index')" wire:navigate>{{ __('Manage Customers') }}</flux:navlist.item>
+                     <flux:navlist.item icon="banknotes" :href="route('payment.method.index')" :current="request()->routeIs('payment.method.index')" wire:navigate>{{ __('Manage Payment Methods') }}</flux:navlist.item>
+                     <flux:navlist.item icon="user-group" :href="route('users.index')" :current="request()->routeIs('users.index')" wire:navigate>{{ __('Manage Users') }}</flux:navlist.item>
                 </flux:navlist.group>
 
                 <flux:navlist.group :heading="__('Invetory Management')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('items.index')" :current="request()->routeIs('items.index')" wire:navigate>{{ __('Items') }}</flux:navlist.item>
-                     <flux:navlist.item icon="home" :href="route('inventories.index')" :current="request()->routeIs('inventories.index')" wire:navigate>{{ __('Inventory') }}</flux:navlist.item>
+                    <flux:navlist.item icon="cube" :href="route('items.index')" :current="request()->routeIs('items.index')" wire:navigate>{{ __('Items') }}</flux:navlist.item>
+                     <flux:navlist.item icon="queue-list" :href="route('inventories.index')" :current="request()->routeIs('inventories.index')" wire:navigate>{{ __('Inventory') }}</flux:navlist.item>
                 </flux:navlist.group>
 
                 <flux:navlist.group :heading="__('Sales')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('sales.index')" :current="request()->routeIs('sales.index')" wire:navigate>{{ __('Sales') }}</flux:navlist.item>
+                    <flux:navlist.item icon="chart-bar" :href="route('sales.index')" :current="request()->routeIs('sales.index')" wire:navigate>{{ __('Sales') }}</flux:navlist.item>
                 </flux:navlist.group>
 
             </flux:navlist>
