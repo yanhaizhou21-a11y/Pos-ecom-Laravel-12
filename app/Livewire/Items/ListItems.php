@@ -48,7 +48,11 @@ class ListItems extends Component implements HasActions, HasSchemas, HasTable
             ->action(fn (Item $record) => $record->delete())
             ->successNotification( Notification::make()
             ->title('Deleted successfully')
-            ->success())
+            ->success()
+            ),
+            Action::make('edit')
+            ->url(fn (Item $record): string => route('item.update', $record)),
+            
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

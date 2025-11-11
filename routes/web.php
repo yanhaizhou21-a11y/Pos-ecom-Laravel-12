@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {   
     Route::get('/management-users',ListUsers::class)->name('users.index');
     Route::get('/management-items',ListItems::class)->name('items.index');
-    Route::get('/edit-items',ListItems::class)->name('items.index');
+    Route::get('/edit-items/{record}',ListItems::class)->name('item.update');
     Route::get('/management-inventories',ListInventories::class)->name('inventories.index');
     Route::get('/management-sales',ListSales::class)->name('sales.index');
     Route::get('/management-customers',ListCustomers::class)->name('customers.index');
