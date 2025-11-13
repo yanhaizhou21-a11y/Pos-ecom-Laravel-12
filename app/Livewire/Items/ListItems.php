@@ -51,7 +51,7 @@ class ListItems extends Component implements HasActions, HasSchemas, HasTable
             ->success()
             ),
             Action::make('edit')
-            ->url(fn (Item $record): string => route('item.update', $record)),
+            ->url(fn (Item $record): string => route('item.edit', $record))
             
             ])
             ->toolbarActions([

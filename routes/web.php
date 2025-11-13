@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Customers\ListCustomers;
+use App\Livewire\Items\EditItem;
 use App\Livewire\Items\ListInventories;
 use App\Livewire\Items\ListItems;
 use App\Livewire\Management\ListPaymentMethod;
@@ -40,7 +41,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {   
     Route::get('/management-users',ListUsers::class)->name('users.index');
     Route::get('/management-items',ListItems::class)->name('items.index');
-    Route::get('/edit-items/{record}',ListItems::class)->name('item.update');
+    Route::get('/edit-items/{record}', EditItem::class)
+        ->name('item.edit')
+        ->middleware(['web', 'auth']);
     Route::get('/management-inventories',ListInventories::class)->name('inventories.index');
     Route::get('/management-sales',ListSales::class)->name('sales.index');
     Route::get('/management-customers',ListCustomers::class)->name('customers.index');

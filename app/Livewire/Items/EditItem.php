@@ -10,6 +10,7 @@ use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use Illuminate\Contracts\View\View;
@@ -25,8 +26,8 @@ class EditItem extends Component implements HasActions, HasSchemas
 
     public function mount(?ModelsItem $record = null): void
     {
-        $this->record = $record ?? new ModelsItem();
-        $this->form()->fill($this->record->attributesToArray());
+        $this->record = $record;
+        $this->data = $this->record->attributesToArray();
     }
 
     public function form(Schema $schema): Schema
@@ -34,22 +35,38 @@ class EditItem extends Component implements HasActions, HasSchemas
         return $schema
             ->components([
                 Section::make('Rate limiting')
-                ->description('Prevent abuse by limiting the number of requests per period')
+                ->description('Update Item Details as you wish')
+                ->columns(2)
                 ->schema([
-                 // ...
+                TextInput::make('name')
+                ->label('Item Name'),
+                TextInput::make('sku')
+                ->unique(),
+                TextInput::make('price')
+                ->numeric()
+                ->prefix('Rp '),  
+                ToggleButtons::make('status')
+                ->label('is this item?')
+                 ->options([
+                    'active' => 'Active',
+                    'inactive' => 'Inactive',
+                 ])
+                 ->grouped(),
             ])
             ->statePath('data')
-            ->model($this->record);
-    }
+            ->model($this->record)
+                ]);
+            }
+    
 
     public function save(): void
     {
         try {
-            $data = $this->form()->getState();
-            $this->record->update($data);
+            $this->record->update($this->data);
 
             Notification::make()
                 ->title('Item updated successfully')
+                ->body("Item{$this->record->name} has been updated successfully")
                 ->success()
                 ->send();
 
